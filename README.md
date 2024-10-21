@@ -1,5 +1,7 @@
 # intelligent-web-assignment
 Assignment for intelligent web
+A team project for the Intelligent Web module at UOS.
+By Owen Cook, Eva Szwagrzak, Sophie Dillon and Tom Smith
 ## Initial setup
 
  Assuming you are using webstorm:
