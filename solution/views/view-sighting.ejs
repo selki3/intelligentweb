@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<%- include("partials/head") %>
+
+<body onload="initViewSighting()">
+<header>
+</header>
+<main>
+
+    <div class="align-items-stretch">
+        <div class="row">
+            <%- include('partials/navbar') %>
+
+            <div class="col-md-9">
+            <div class="container">
+                <h2>Sighting Details</h2>
+                <h5>
+                    <span class="glyphicon glyphicon-time"></span>
+                    Post by <%= sighting.uploadedBy %>,
+                    <%= sighting.dateTime.toLocaleDateString("en-UK") %> at
+                    <%= sighting.dateTime.toLocaleTimeString("en-UK") %>.
+                </h5>
+
+                <div class="details container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <figure class="figure">
+                                <img src="<%= sighting.birdImg %>" class="figure-img img-fluid" width="300" height="300">
+                                <figcaption>Picture of Bird</figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-md-4">
+                            <figure id="mapholder" class="figure">
+                                <div id="mapid" class="figure-img img-fluid"></div>
+                                <figcaption>Map</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class = "small-container">
+                    <p>Uploaded by: <%= sighting.uploadedBy %></p>
+                    <p>Bird Identification: <%= sighting.identification %></p>
+                    <p>
+                        Sighting time:
+                        <%= sighting.dateTime.toLocaleTimeString("en-UK") %> on
+                        <%= sighting.dateTime.toLocaleDateString("en-UK") %>.
+                    </p>
+                    <p>longitude: <span id="latitude"><%= sighting.longitude %></span></p>
+                    <p>latitude:<span id="longitude"><%= sighting.latitude %></span></p>
+                    <p>Description: <br><%= sighting.description %></p>
+                    <% if (sighting.birdInfo) { %>
+                        <h3 Extra Facts></h3>
+                        <!-- DBpedia Facts-->
+                        <p>Bird Page: <%= sighting.birdInfo.url %></p>
+                        <p>Bird Abstract: <%= sighting.birdInfo.abstract %></p>
+                        <p>Bird Genus: <%= sighting.birdInfo.genus %></p>
+                        <p>Bird Species: <%= sighting.birdInfo.species %></p>
+                    <% } %>
+
+                </div>
+                <hr>
+                <form method="post" action="/edit-sighting">
+                    <input type="hidden" name="id" value="<%= sighting.id %>">
+                    <input type="hidden" name="signatures" class="signature">
+                    <select id="bird-list" name="bird">
+                        <option value="" selected></option>
+                        <% for(var i=0; i<birdNames.length; i++) { %>
+                            <option value="<%= birdNames[i] %>"><%= birdNames[i] %></option>
+                        <% } %>
+                    </select>
+                    <input type="submit" value="Update identification">
+                </form>
+
+                <form id="sighting-form" method="post" action="/update-sighting-image" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<%= sighting.id %>">
+                    <input type="hidden" name="signatures" class="signature">
+                    <label for="imageFile">New image:</label>
+                    <input type="file" id="imageFile" name="imageFile" accept="image/*">
+
+                    <input type="submit" value="Change image">
+                </form>
+                <hr>
+
+                <h3>Chat</h3>
+                <div class="chat-section border rounded">
+                    <div id="history" class="boxed"></div>
+                    <div id="input" class="bottom boxed">
+                        <form onsubmit="return false;" style="width: 100%">
+                            <p>
+                                <label for="name"> chat: </label>
+                                <input type="text" id="chat_input" name="chat_input" style="width: 80%">
+                                <button id="chat_send" onclick="sendChatText()">Send</button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="/javascripts/idb/index.js"></script>
+<script src="/javascripts/database.js" type="module"></script>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script src="/javascripts/app.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="/javascripts/map.js"></script>
+<% if (showAlert) { %>
+    <script>
+        alert("You do not have the correct access key to update this sighting.");
+    </script>
+<% } %>
+</body>
+</html>

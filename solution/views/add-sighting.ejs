@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<%- include('partials/head') %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- import bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/stylesheets/style.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+
+</head>
+
+<body onload="init()">
+<header>
+</header>
+<main>
+    <div class="row content align-items-stretch">
+        <%- include('partials/navbar') %>
+        <div class="well">
+            <div class="col-md-9">
+            <div class="container">
+                <form id="sighting-form" onsubmit="return false;" enctype="multipart/form-data">
+                    <h1>Uploaded by: <span class="nickname"></span></h1>
+                    <input type="hidden" name="uploadedBy" class="nickname">
+                    <input type="hidden" name="signature" id="signature">
+                    <label for="identification">Identification:</label>
+                    <br>
+                    <select id="bird-list" name="bird">
+                        <option value="" selected></option>
+                        <% for(var i=0; i<birdNames.length; i++) { %>
+                            <option value="<%= birdNames[i] %>"><%= birdNames[i] %></option>
+                        <% } %>
+                    </select>
+                    <br>
+                    <label for="imageFile">Image:</label>
+                    <br>
+                    <input type="file" id="imageFile" name="imageFile" accept="image/*">
+                    <br>
+                    <label for="description">Description:</label>
+                    <br>
+                    <textarea name="description"></textarea>
+                    <br>
+                    <div id="mapid" style="height: 180px;"></div>
+                    <button type="button" id="location-button">Use My Current Location</button>
+                    <br>
+                    <label>Coordinates: </label>
+                    <br>
+                    <input name="latitude" id="latitude">
+                    <input  name="longitude" id="longitude">
+                    <br>
+
+                    <input type="submit" onclick="storeNewSighting()">
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+
+</footer>
+<script src="/javascripts/idb/index.js"></script>
+<script src="/javascripts/database.js" type="module"></script>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script src="/javascripts/app.js"></script>
+<script src="/javascripts/generateSignature.js"></script>
+<script src="/javascripts/addsightingmap.js"></script>
+</body>
+</html>

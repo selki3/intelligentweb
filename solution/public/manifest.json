@@ -1,0 +1,18 @@
+{
+  "lang": "en-uk",
+  "name": "Birdwatching website",
+  "short_name": "Birdwatcher",
+  "description": "A basic birdwatching application that users can add sightings to and chat to other users",
+  "start_url": "/",
+  "background_color": "#2f3d58",
+  "theme_color": "#2f3d58",
+  "orientation": "any",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/img/default.png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ]
+}
